@@ -18,13 +18,24 @@ class Obsersable {
 	}
 }
 
+class Target extends Obsersable {
+	constructor(): void {
+		super()
+		this._observers = []
+	}
+
+	doSomething(): void {
+		this.notify();
+	}
+}
+
 interface IObserver {
 	update(): void;
 }
 
 class Observer implements IObserver {
-	id: string; // used to remove
-
+	// used to remove, because js cannot find object by class name.
+	id: string; 
 	constructor(id: string): void {
 		this.id = id;
 	}
@@ -39,18 +50,7 @@ class Observer implements IObserver {
 	}
 }
 
-class Target extends Obsersable {
-	constructor(): void {
-		super()
-		this._observers = []
-	}
-
-	doSomething(): void {
-		this.notify();
-	}
-}
-
-const victim: Target = new Target();
+const victim: Obsersable = new Target();
 const spy1: Observer = new Observer("Spy 1");
 const spy2: Observer = new Observer('Spy 2');
 

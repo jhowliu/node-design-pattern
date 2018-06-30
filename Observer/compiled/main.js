@@ -39,31 +39,6 @@ var Obsersable = function () {
 	return Obsersable;
 }();
 
-var Observer = function () {
-	// used to remove
-
-	function Observer(id) {
-		_classCallCheck(this, Observer);
-
-		this.id = id;
-	}
-
-	_createClass(Observer, [{
-		key: "update",
-		value: function update() {
-			console.log("REPORT: Target is doing something.");
-			this.report();
-		}
-	}, {
-		key: "report",
-		value: function report() {
-			console.log(this.id + ": Report target activity to Master.");
-		}
-	}]);
-
-	return Observer;
-}();
-
 var Target = function (_Obsersable) {
 	_inherits(Target, _Obsersable);
 
@@ -85,6 +60,31 @@ var Target = function (_Obsersable) {
 
 	return Target;
 }(Obsersable);
+
+var Observer = function () {
+	function Observer(id) {
+		_classCallCheck(this, Observer);
+
+		this.id = id;
+	}
+	// used to remove, because js cannot find object by class name.
+
+
+	_createClass(Observer, [{
+		key: "update",
+		value: function update() {
+			console.log("REPORT: Target is doing something.");
+			this.report();
+		}
+	}, {
+		key: "report",
+		value: function report() {
+			console.log(this.id + ": Report target activity to Master.");
+		}
+	}]);
+
+	return Observer;
+}();
 
 var victim = new Target();
 var spy1 = new Observer("Spy 1");
