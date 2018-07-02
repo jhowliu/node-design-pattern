@@ -50,7 +50,7 @@ class Observer implements IObserver {
 	}
 }
 
-const victim: Obsersable = new Target();
+const victim: Target = new Target();
 const spy1: Observer = new Observer("Spy 1");
 const spy2: Observer = new Observer('Spy 2');
 
