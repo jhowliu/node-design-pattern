@@ -9,119 +9,62 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 // Abstract Car
-var ABCCar = function () {
-	function ABCCar() {
-		_classCallCheck(this, ABCCar);
+var ABCVehicle = function () {
+	function ABCVehicle(brand, model, price, maxSpeed) {
+		_classCallCheck(this, ABCVehicle);
+
+		this._model = model;
+		this._brand = brand;
+		this._price = price;
+		this._maxSpeed = maxSpeed;
 	}
 
-	_createClass(ABCCar, [{
+	_createClass(ABCVehicle, [{
 		key: 'info',
 		value: function info() {
-			throw new Error('Must implement info().');
+			console.log('===================');
+			console.log('Model: ' + this._model + '\nBrand: ' + this._brand + '\nMax Speed: ' + this._maxSpeed + '\nPrice: $' + this._price);
 		}
 	}]);
 
-	return ABCCar;
+	return ABCVehicle;
 }();
 
-var X5 = function (_ABCCar) {
-	_inherits(X5, _ABCCar);
+var Car = function (_ABCVehicle) {
+	_inherits(Car, _ABCVehicle);
 
-	function X5() {
-		_classCallCheck(this, X5);
+	function Car(brand, model, price, maxSpeed) {
+		_classCallCheck(this, Car);
 
-		var _this = _possibleConstructorReturn(this, (X5.__proto__ || Object.getPrototypeOf(X5)).call(this));
-
-		_this._brand = 'BMW';
-		_this._price = 100000;
-		_this._maxSpeed = 300;
-		return _this;
+		return _possibleConstructorReturn(this, (Car.__proto__ || Object.getPrototypeOf(Car)).call(this, brand, model, price, maxSpeed));
 	}
 
-	_createClass(X5, [{
-		key: 'info',
-		value: function info() {
-			console.log('======================');
-			console.log('Model: X5\nBrand: ' + this._brand + '\nMax Speed: ' + this._maxSpeed + '\nPrice: $' + this._price);
-		}
-	}]);
-
-	return X5;
-}(ABCCar);
-
-var X6 = function (_ABCCar2) {
-	_inherits(X6, _ABCCar2);
-
-	function X6() {
-		_classCallCheck(this, X6);
-
-		var _this2 = _possibleConstructorReturn(this, (X6.__proto__ || Object.getPrototypeOf(X6)).call(this));
-
-		_this2._brand = 'BMW';
-		_this2._price = 150000;
-		_this2._maxSpeed = 400;
-		return _this2;
-	}
-
-	_createClass(X6, [{
-		key: 'info',
-		value: function info() {
-			console.log('======================');
-			console.log('Model: X6\nBrand: ' + this._brand + '\nMax Speed: ' + this._maxSpeed + '\nPrice: $' + this._price);
-		}
-	}]);
-
-	return X6;
-}(ABCCar);
-
-var Ferrari812 = function (_ABCCar3) {
-	_inherits(Ferrari812, _ABCCar3);
-
-	function Ferrari812() {
-		_classCallCheck(this, Ferrari812);
-
-		var _this3 = _possibleConstructorReturn(this, (Ferrari812.__proto__ || Object.getPrototypeOf(Ferrari812)).call(this));
-
-		_this3._brand = 'Ferrari';
-		_this3._price = 9999999;
-		_this3._maxSpeed = 600;
-		return _this3;
-	}
-
-	_createClass(Ferrari812, [{
-		key: 'info',
-		value: function info() {
-			console.log('======================');
-			console.log('Model: Ferrari 812\nBrand: ' + this._brand + '\nMax Speed: ' + this._maxSpeed + '\nPrice: $' + this._price);
-		}
-	}]);
-
-	return Ferrari812;
-}(ABCCar);
+	return Car;
+}(ABCVehicle);
 
 // Abstract Factory
 
 
-var ABCCarFactory = function () {
-	function ABCCarFactory() {
-		_classCallCheck(this, ABCCarFactory);
+var ABCFactory = function () {
+	function ABCFactory() {
+		_classCallCheck(this, ABCFactory);
 	}
 
-	_createClass(ABCCarFactory, [{
-		key: 'createCar',
-		value: function createCar(type) {
+	_createClass(ABCFactory, [{
+		key: 'createVehicle',
+		value: function createVehicle(type) {
 			throw new Error('Must implement createCar()');
 		}
 	}]);
 
-	return ABCCarFactory;
+	return ABCFactory;
 }();
 
 // javascript doesn't have class.getName() like Java.
 
 
-var CarFactory = function (_ABCCarFactory) {
-	_inherits(CarFactory, _ABCCarFactory);
+var CarFactory = function (_ABCFactory) {
+	_inherits(CarFactory, _ABCFactory);
 
 	function CarFactory() {
 		_classCallCheck(this, CarFactory);
@@ -130,15 +73,15 @@ var CarFactory = function (_ABCCarFactory) {
 	}
 
 	_createClass(CarFactory, [{
-		key: 'createCar',
-		value: function createCar(type) {
+		key: 'createVehicle',
+		value: function createVehicle(type) {
 			switch (type) {
 				case 'X5':
-					return new X5();
-				case 'X6':
-					return new X6();
+					return new Car('BMW', 'X5', 3000000, 299);
 				case 'Ferrari 812':
-					return new Ferrari812();
+					return new Car('Ferrari', 'Ferrari 812', 10000000, 499);
+				case 'X6':
+					return new Car('BMW', 'X6', 5000000, 399);
 				default:
 					throw new Error('There is no ' + type + ' car.');
 			}
@@ -146,7 +89,7 @@ var CarFactory = function (_ABCCarFactory) {
 	}]);
 
 	return CarFactory;
-}(ABCCarFactory);
+}(ABCFactory);
 
 // create a car factory 
 
@@ -154,11 +97,11 @@ var CarFactory = function (_ABCCarFactory) {
 var factory = new CarFactory();
 
 // create the products(cars here)
-var x5 = factory.createCar('X5');
+var x5 = factory.createVehicle('X5');
 x5.info();
 
-var ferrari = factory.createCar('Ferrari 812');
+var ferrari = factory.createVehicle('Ferrari 812');
 ferrari.info();
 
-var x6 = factory.createCar('X6');
+var x6 = factory.createVehicle('X6');
 x6.info();

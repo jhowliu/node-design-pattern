@@ -1,74 +1,48 @@
 // @flow
 
 // Abstract Car
-class ABCCar {
+class ABCVehicle {
+	_model: string;
 	_brand: string;
 	_price: number;
 	_maxSpeed: number;
+
+	constructor(brand: string, model: string, price: number, maxSpeed: number): void {
+		this._model = model;
+		this._brand = brand;
+		this._price = price;
+		this._maxSpeed = maxSpeed;
+	}
+
 	info(): void {
-		throw new Error('Must implement info().');
+		console.log(`===================`)
+		console.log(`Model: ${this._model}\nBrand: ${this._brand}\nMax Speed: ${this._maxSpeed}\nPrice: $${this._price}`)
 	}
 }
 
-class X5 extends ABCCar {
-	constructor(): void {
-		super();
-		this._brand = 'BMW';
-		this._price = 100000;
-		this._maxSpeed = 300;
-	}
-
-	info(): void {
-		console.log(`======================`)
-		console.log(`Model: X5\nBrand: ${this._brand}\nMax Speed: ${this._maxSpeed}\nPrice: $${this._price}`)
-	}
-}
-
-class X6 extends ABCCar {
-	constructor(): void {
-		super();
-		this._brand = 'BMW';
-		this._price = 150000;
-		this._maxSpeed = 400;
-	}
-
-	info(): void {
-		console.log(`======================`)
-		console.log(`Model: X6\nBrand: ${this._brand}\nMax Speed: ${this._maxSpeed}\nPrice: $${this._price}`)
-	}
-}
-
-class Ferrari812 extends ABCCar {
-	constructor(): void {
-		super();
-		this._brand = 'Ferrari';
-		this._price = 9999999;
-		this._maxSpeed = 600;
-	}
-
-	info(): void {
-		console.log(`======================`)
-		console.log(`Model: Ferrari 812\nBrand: ${this._brand}\nMax Speed: ${this._maxSpeed}\nPrice: $${this._price}`)
+class Car extends ABCVehicle {
+	constructor(brand: string, model: string, price:number, maxSpeed: number):void {
+		super(brand, model, price, maxSpeed);
 	}
 }
 
 // Abstract Factory
-class ABCCarFactory {
-	createCar(type: string): ABCCar {
+class ABCFactory {
+	createVehicle(type: string): ABCVehicle {
 		throw new Error('Must implement createCar()');
 	}
 }
 
 // javascript doesn't have class.getName() like Java.
-class CarFactory extends ABCCarFactory {
-	createCar(type: string): ABCCar {
+class CarFactory extends ABCFactory {
+	createVehicle(type: string): ABCVehicle {
 		switch (type) {
 			case 'X5': 
-				return new X5();
-			case 'X6':
-				return new X6();
+				return new Car('BMW', 'X5', 3000000, 299)
 			case 'Ferrari 812':
-				return new Ferrari812();
+				return new Car('Ferrari', 'Ferrari 812', 10000000, 499);
+			case 'X6':
+				return new Car('BMW', 'X6', 5000000, 399);
 			default:
 				throw new Error(`There is no ${type} car.`)
 		}
@@ -76,14 +50,14 @@ class CarFactory extends ABCCarFactory {
 }
 
 // create a car factory 
-const factory: ABCCarFactory = new CarFactory();
+const factory: ABCFactory = new CarFactory();
 
 // create the products(cars here)
-const x5: ABCCar = factory.createCar('X5');
+const x5: ABCVehicle = factory.createVehicle('X5');
 x5.info();
 
-const ferrari: ABCCar = factory.createCar('Ferrari 812');
+const ferrari: ABCVehicle = factory.createVehicle('Ferrari 812');
 ferrari.info();
 
-const x6: ABCCar = factory.createCar('X6');
+const x6: ABCVehicle = factory.createVehicle('X6');
 x6.info();
