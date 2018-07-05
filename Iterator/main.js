@@ -1,17 +1,19 @@
 // @flow
 
+// IProjectIterator需要實作的方法
 interface IProjectIterator {
 	hasNext(): boolean;
 	next(): IProject;
 }
 
+// IProject需要實作的方法
 interface IProject {
 	add(name: string, num: number, cost: number): void;
 	getProjectInfo(): string;
 	iterator(): IProjectIterator;
 }
 
-// 主要需要實作Iterator
+// 主要需要實作Iterator， Iterator其實主要就是需要時做hasNext()及next()
 class ProjectIterator implements IProjectIterator {
 	_projects: IProject[];
 	_currentIndex: number;
@@ -20,11 +22,11 @@ class ProjectIterator implements IProjectIterator {
 		this._projects = projects;
 		this._currentIndex = 0; 
 	}
-
+	// 是否有下一個物件
 	hasNext(): boolean {
 		return this._projects.length > this._currentIndex
 	}
-
+	// 回傳下一個物件
 	next(): IProject {
 		const project: IProject = this._projects[this._currentIndex]
 		this._currentIndex++;
@@ -38,6 +40,7 @@ class Project implements IProject {
 	_num: number;
 	_cost: number;
 
+	// 由於Javascript不能多個建構式，所以需要這種方式
 	constructor(name: ?string, num: ?number, cost: ?number) {
 		if (name == null || num == null || cost == null) {
 			this._projects = [];
